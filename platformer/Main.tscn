@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://ui.tscn" type="PackedScene" id=1]
+
+[node name="world" type="Node"]
+
+__meta__ = {
+"__editor_plugin_screen__": "2D"
+}
+
+[node name="ui" parent="." instance=ExtResource( 1 )]
+
+
+[editable path="ui"]
+[editable path="ui/AreaAnalogRight/AnalogRight"]

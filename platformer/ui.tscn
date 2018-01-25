@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://analog/analog.xml" type="PackedScene" id=1]
+
+[node name="ui" type="Control"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+
+[node name="AreaAnalogRight" type="Control" parent="."]
+
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 456.0
+margin/top = 602.0
+margin/right = 2.0
+margin/bottom = 0.0
+
+[node name="AnalogRight" parent="AreaAnalogRight" instance=ExtResource( 1 )]
+
+isDynamicallyShowing = true
+name = "rightPad"
+
+[node name="AreaAnalogLeft" type="Control" parent="."]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 3.0
+margin/top = 601.0
+margin/right = 458.0
+margin/bottom = -3.0
+
+[node name="AnalogLeft" parent="AreaAnalogLeft" instance=ExtResource( 1 )]
+
+name = "leftPad"
+
+
