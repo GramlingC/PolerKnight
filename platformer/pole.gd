@@ -45,7 +45,22 @@ func impulse(ev):
 			#print(get_child(1).get_scale())
 			#set_angular_damp(40)
 	elif(ev == 2):
-		pass
+		var ximpulse = abs(get_pos().x)*10
+		var yimpulse = abs(get_pos().y)*10
+		var impulse = ximpulse+yimpulse
+		if (impulse >= 1):
+			impulse = 1
+			var yrot = -sign(cos(get_rot()))*(1+abs(cos(get_rot())))/2
+			var xrot = -sin(get_rot())
+			var t = c
+			if (c > 8):
+				t = (15+c)/2
+			#print(t)
+			#print(impulse)
+			set_linear_velocity(get_linear_velocity()+Vector2(xrot*(40*t),(yrot)*(40*t)))
+			get_parent().set_linear_velocity(get_linear_velocity())
+			moving = false 
+			r= 30
 		#print((ev.x-400)/10)
 		#set_pos(ev.pos+get_node.)
 		#+ Vector2(200,1000))
@@ -75,23 +90,10 @@ func _process(delta):
 		var ximpulse = abs(get_pos().x)*10
 		var yimpulse = abs(get_pos().y)*10
 		var impulse = ximpulse+yimpulse
-		#print (ximpulse)
-		#print (yimpulse)
-		if (impulse > 1):
-			impulse = 1
 		if (impulse >= 1):
+			impulse = 1
+			impulse(2)
 
-			var yrot = -sign(cos(get_rot()))*(1+abs(cos(get_rot())))/2
-			var xrot = -sin(get_rot())
-			var t = c
-			if (c > 8):
-				t = (15+c)/2
-			#print(t)
-			#print(impulse)
-			set_linear_velocity(get_linear_velocity()+Vector2(xrot*(40*impulse*t),(yrot)*(40*impulse*t)))
-			get_parent().set_linear_velocity(get_linear_velocity())
-			moving = false 
-			r= 30
 	if(r<30):
 		r += 1
 		#if (c <= 0):
@@ -116,7 +118,6 @@ func _process(delta):
 	#print(angle)
 	set_angular_velocity(-angle*6)
 	
-
 	
 	
 	
