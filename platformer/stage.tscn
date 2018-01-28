@@ -73,7 +73,6 @@ softness = 0.0
 
 [node name="plank1" type="RigidBody2D" parent="player"]
 
-editor/display_folded = true
 transform/rot = 180.0
 transform/scale = Vector2( 0.5, 0.75 )
 input/pickable = false
@@ -156,15 +155,6 @@ scale = Vector2( 1, 1 )
 [node name="AnalogRight" parent="CanvasLayer/ui/AreaAnalogRight"]
 
 listenerNodePath = "/root/stage/player/plank1"
-
-[node name="AreaAnalogLeft" parent="CanvasLayer/ui"]
-
-margin/left = -500.0
-margin/right = -45.0
-
-[node name="AnalogLeft" parent="CanvasLayer/ui/AreaAnalogLeft"]
-
-transform/pos = Vector2( 150, 300 )
 
 
 [editable path="CanvasLayer/ui"]

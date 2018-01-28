@@ -35,21 +35,4 @@ margin/bottom = 0.0
 isDynamicallyShowing = true
 name = "rightPad"
 
-[node name="AreaAnalogLeft" type="Control" parent="."]
-
-anchor/top = 1
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 3.0
-margin/top = 601.0
-margin/right = 458.0
-margin/bottom = -3.0
-
-[node name="AnalogLeft" parent="AreaAnalogLeft" instance=ExtResource( 1 )]
-
-name = "leftPad"
-
 

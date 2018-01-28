@@ -45,9 +45,10 @@ func impulse(ev):
 			#print(get_child(1).get_scale())
 			#set_angular_damp(40)
 	elif(ev == 2):
+		print("printpulse")
 		var ximpulse = abs(get_pos().x)*10
 		var yimpulse = abs(get_pos().y)*10
-		var impulse = ximpulse+yimpulse
+		var impulse = 1# ximpulse+yimpulse
 		if (impulse >= 1):
 			impulse = 1
 			var yrot = -sign(cos(get_rot()))*(1+abs(cos(get_rot())))/2

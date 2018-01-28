@@ -63,9 +63,10 @@ func _integrate_forces(s):
 					if (cc.moving):
 						cc.impulse(2) 
 						cc.set_linear_velocity(cc.get_linear_velocity()*2)
-					if (dp.x != 0 and sign(dp.x) != direction):
-						direction = -direction
-						get_node("sprite").set_scale(Vector2(-direction*6, 6))
+						if (dp.x != 0 and sign(dp.x) != direction or dp.y == 1):
+							
+							direction = -direction
+							get_node("sprite").set_scale(Vector2(-direction*6, 6))
 			if (dp.x > 0.9):
 				wall_side = 1.0
 			elif (dp.x < -0.9):
@@ -86,15 +87,16 @@ func _integrate_forces(s):
 		#	get_node("sprite").set_scale(Vector2(-direction*5, 5))
 		
 		lv.y = 0
-		if (!rc_left.is_colliding() || !rc_right.is_colliding()):
+		if (!rc_left.is_colliding() && !rc_right.is_colliding()):
 
 			lv.y = WALK_SPEED*3
+			print("falling")
 			
 		#lv.y = rise
 	
 	if(anim != new_anim):
 		anim = new_anim
-		get_node("anim").play(anim)
+		#get_node("anim").play(anim)
 	
 	s.set_linear_velocity(lv)
 

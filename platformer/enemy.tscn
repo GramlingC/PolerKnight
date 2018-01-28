@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://enemy.gd" type="Script" id=1]
 [ext_resource path="res://enemy.png" type="Texture" id=2]
@@ -6,12 +6,7 @@
 [ext_resource path="res://sound_explode.wav" type="Sample" id=4]
 [ext_resource path="res://sound_hit.wav" type="Sample" id=5]
 
-[sub_resource type="CircleShape2D" id=1]
-
-custom_solver_bias = 0.0
-radius = 14.0
-
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
@@ -125,18 +120,18 @@ samples/hit = {
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 11, 0, 0, 5, -11, 0 )
+shapes/0/transform = Matrix32( 14, 0, 0, 4, -11, -20.5343 )
 shapes/0/trigger = false
-shapes/1/shape = SubResource( 7 )
-shapes/1/transform = Matrix32( 11, 0, 0, 5, -11, -50 )
+shapes/1/shape = SubResource( 1 )
+shapes/1/transform = Matrix32( 15, 0, 0, 5, -11, 50.6745 )
 shapes/1/trigger = false
 collision/layers = 1
 collision/mask = 1
 mode = 2
 mass = 1.0
-friction = 0.0
+friction = 1.0
 bounce = 0.0
-gravity_scale = 1.0
+gravity_scale = 0.0
 custom_integrator = false
 continuous_cd = 2
 contacts_reported = 4
@@ -181,27 +176,27 @@ texture = ExtResource( 2 )
 hframes = 8
 frame = 4
 
-[node name="CollisionShape2D 3" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( -11, 0 )
-transform/scale = Vector2( 11, 5 )
+transform/pos = Vector2( -11, -20.5343 )
+transform/scale = Vector2( 14, 4 )
 z/relative = false
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( -11, -50 )
-transform/scale = Vector2( 11, 5 )
+transform/pos = Vector2( -11, 50.6745 )
+transform/scale = Vector2( 15, 5 )
 z/relative = false
-shape = SubResource( 7 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 1
 
 [node name="raycast_left" type="RayCast2D" parent="."]
 
-transform/pos = Vector2( -187.188, -30 )
+transform/pos = Vector2( -164.382, -41.4031 )
 enabled = true
 cast_to = Vector2( 0, 150 )
 layer_mask = 1
@@ -209,7 +204,7 @@ type_mask = 15
 
 [node name="raycast_right" type="RayCast2D" parent="."]
 
-transform/pos = Vector2( 165.961, -30 )
+transform/pos = Vector2( 143.155, -43.8466 )
 enabled = true
 cast_to = Vector2( 0, 150 )
 layer_mask = 1
