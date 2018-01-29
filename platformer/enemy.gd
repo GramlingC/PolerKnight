@@ -13,7 +13,8 @@ var anim = ""
 var rc_left = null
 var rc_right = null
 var WALK_SPEED = 400
-
+var wall_side = -1
+var moving = true
 
 
 var bullet_class = preload("res://bullet.gd")
@@ -40,7 +41,7 @@ func _integrate_forces(s):
 	elif (state == STATE_WALKING):
 		new_anim = "walk"
 		
-		var wall_side = 0.0
+		
 		#var rise = -20.0
 		
 		for i in range(s.get_contact_count()):
@@ -56,27 +57,33 @@ func _integrate_forces(s):
 					cc.disable()
 					#get_node("sound").play("hit")
 					break
-				elif (cc extends pole_class):
+				elif (false):
 					#set_mode(MODE_RIGID)
 					#state = STATE_DYING
 					#s.set_linear_velocity(dp * cc.get_linear_velocity())
+					print(cc.moving)
 					if (cc.moving):
-						cc.impulse(2) 
-						cc.set_linear_velocity(cc.get_linear_velocity()*2)
-						if (dp.x != 0 and sign(dp.x) != direction or dp.y == 1):
-							
+						print("2")
+						if (abs(dp.x) > 0.5 and sign(dp.x) != sign(direction) || dp.y > .7):
+							print("3")
 							direction = -direction
 							get_node("sprite").set_scale(Vector2(-direction*6, 6))
-			if (dp.x > 0.9):
+						#if (dp.y > .7):
+							#cc.impulse(2) 
+							#cc.set_linear_velocity(cc.get_linear_velocity()*2)
+			if (dp.x > 0.7):
 				wall_side = 1.0
-			elif (dp.x < -0.9):
+			elif (dp.x < -0.7):
 				wall_side = -1.0
 			#if (abs(dp.y) > abs(rise)):
 			#	rise = dp.y
 		
-		if (wall_side != 0 and wall_side != direction):
+		if (wall_side != direction):
+			#print("stopped")
 			lv.x = 0
-		else:
+			moving = false
+		elif(moving):
+			#print("moving")
 			lv.x = direction*WALK_SPEED
 			
 		#if (direction < 0 and not rc_left.is_colliding() and rc_right.is_colliding()):
@@ -88,9 +95,7 @@ func _integrate_forces(s):
 		
 		lv.y = 0
 		if (!rc_left.is_colliding() && !rc_right.is_colliding()):
-
 			lv.y = WALK_SPEED*3
-			print("falling")
 			
 		#lv.y = rise
 	

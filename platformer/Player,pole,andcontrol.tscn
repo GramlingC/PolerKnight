@@ -26,6 +26,7 @@ softness = 0.0
 
 [node name="plank1" type="RigidBody2D" parent="player"]
 
+editor/display_folded = true
 transform/rot = 180.0
 transform/scale = Vector2( 0.75, 1.25 )
 input/pickable = false
@@ -41,8 +42,8 @@ bounce = 0.0
 gravity_scale = 1.0
 custom_integrator = false
 continuous_cd = 0
-contacts_reported = 0
-contact_monitor = false
+contacts_reported = 4
+contact_monitor = true
 sleeping = false
 can_sleep = true
 velocity/linear = Vector2( 0, 0 )
@@ -76,10 +77,31 @@ scale = Vector2( 1, 1 )
 
 [node name="ui" parent="CanvasLayer" instance=ExtResource( 4 )]
 
+[node name="AreaAnalogRight" parent="CanvasLayer/ui"]
+
+margin/left = 599.0
+
 [node name="AnalogRight" parent="CanvasLayer/ui/AreaAnalogRight"]
 
 transform/pos = Vector2( 186.97, 224.742 )
 listenerNodePath = "/root/Node2D/player/plank1"
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+
+rect/scale = Vector2( 2, 2 )
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 200.0
+margin/top = 50.0
+margin/right = 240.0
+margin/bottom = 64.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 
 [editable path="CanvasLayer/ui"]

@@ -54,6 +54,7 @@ var enemy
 var disabled = false
 var extended = false
 
+
 func _integrate_forces(s):
 	if (disabled):
 		return
@@ -234,8 +235,10 @@ func _integrate_forces(s):
 	s.set_linear_velocity(lv)
 
 
+
 func _ready():
 	enemy = ResourceLoader.load("res://enemy.tscn")
+	
 	
 #	if !Globals.has_singleton("Facebook"):
 #		return

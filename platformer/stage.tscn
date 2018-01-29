@@ -1,18 +1,10 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://one_way_platform.tscn" type="PackedScene" id=2]
-[ext_resource path="res://player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://pole.gd" type="Script" id=4]
-[ext_resource path="res://plank.png" type="Texture" id=5]
-[ext_resource path="res://music.ogg" type="AudioStream" id=6]
-[ext_resource path="res://parallax_bg.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ui.tscn" type="PackedScene" id=8]
-
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 128, 8 )
+[ext_resource path="res://music.ogg" type="AudioStream" id=3]
+[ext_resource path="res://parallax_bg.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Player,pole,andcontrol.tscn" type="PackedScene" id=5]
 
 [node name="stage" type="Node"]
 
@@ -59,64 +51,9 @@ transform/pos = Vector2( 2401.98, 412.362 )
 
 transform/pos = Vector2( 198.055, 0 )
 
-[node name="player" parent="." instance=ExtResource( 3 )]
-
-transform/pos = Vector2( 251.684, 1300.6 )
-
-[node name="pin1" type="PinJoint2D" parent="player"]
-
-node_a = NodePath("..")
-node_b = NodePath("../plank1")
-bias/bias = 0.0
-collision/exclude_nodes = true
-softness = 0.0
-
-[node name="plank1" type="RigidBody2D" parent="player"]
-
-transform/rot = 180.0
-transform/scale = Vector2( 0.5, 0.75 )
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( -1.31134e-08, -0.3, 0.7, -3.0598e-08, 0, 25 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-mode = 0
-mass = 1.0
-friction = 1.0
-bounce = 0.0
-gravity_scale = 1.0
-custom_integrator = false
-continuous_cd = 0
-contacts_reported = 0
-contact_monitor = false
-sleeping = false
-can_sleep = true
-velocity/linear = Vector2( 0, 0 )
-velocity/angular = 0.0
-damp_override/linear = -1.0
-damp_override/angular = -1.0
-script/script = ExtResource( 4 )
-
-[node name="sprite" type="Sprite" parent="player/plank1"]
-
-transform/pos = Vector2( 0, 20 )
-transform/rot = 90.0
-transform/scale = Vector2( 0.35, 0.7 )
-texture = ExtResource( 5 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player/plank1"]
-
-transform/pos = Vector2( 0, 25 )
-transform/rot = 90.0
-transform/scale = Vector2( 0.3, 0.7 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
 [node name="music" type="StreamPlayer" parent="."]
 
-stream/stream = ExtResource( 6 )
+stream/stream = ExtResource( 3 )
 stream/play = false
 stream/loop = true
 stream/volume_db = 0.0
@@ -125,7 +62,7 @@ stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
 
-[node name="parallax_bg" parent="." instance=ExtResource( 7 )]
+[node name="parallax_bg" parent="." instance=ExtResource( 4 )]
 
 [node name="Label" type="Label" parent="."]
 
@@ -143,18 +80,14 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Node2D" parent="." instance=ExtResource( 5 )]
 
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
+transform/pos = Vector2( 300, 1300 )
 
-[node name="ui" parent="CanvasLayer" instance=ExtResource( 8 )]
+[node name="AnalogRight" parent="Node2D/CanvasLayer/ui/AreaAnalogRight"]
 
-[node name="AnalogRight" parent="CanvasLayer/ui/AreaAnalogRight"]
-
-listenerNodePath = "/root/stage/player/plank1"
+listenerNodePath = "/root/stage/Node2D/player/plank1"
 
 
-[editable path="CanvasLayer/ui"]
+[editable path="Node2D"]
+[editable path="Node2D/CanvasLayer/ui"]

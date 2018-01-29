@@ -7,8 +7,12 @@ var clicked = false
 var moving = false
 var c = 15
 var r = 30
-
+var m = 20
+var enemy = preload("res://enemy.gd")
 var currentForce = Vector2(0,0)
+var label
+var total = 0
+var count = 0
 
 func _input(ev):
 	pass
@@ -34,8 +38,8 @@ func impulse(ev):
 			#get_child(0).set_pos(get_pos()+Vector2(0,100))
 			
 			if (r == 30):
-				set_linear_velocity(Vector2(sin(get_rot())*200,cos(get_rot())*200))
-				get_parent().set_linear_velocity(get_parent().get_linear_velocity()+get_linear_velocity())
+				#set_linear_velocity(Vector2(sin(get_rot())*200,cos(get_rot())*200))
+				#get_parent().set_linear_velocity(get_parent().get_linear_velocity()+get_linear_velocity())
 				moving = true
 			r = 0
 				
@@ -45,7 +49,6 @@ func impulse(ev):
 			#print(get_child(1).get_scale())
 			#set_angular_damp(40)
 	elif(ev == 2):
-		print("printpulse")
 		var ximpulse = abs(get_pos().x)*10
 		var yimpulse = abs(get_pos().y)*10
 		var impulse = 1# ximpulse+yimpulse
@@ -84,16 +87,16 @@ func _process(delta):
 		
 	if (moving):
 		
-		if (r < 5):
-			set_linear_velocity(Vector2(sin(get_rot())*30,cos(get_rot())*30))
-			get_parent().set_linear_velocity(get_parent().get_linear_velocity()+get_linear_velocity())
+		if (r < 10):
+			apply_impulse(Vector2(0,0),5*Vector2(sin(get_rot())*30,cos(get_rot())*30))
+			#get_parent().set_linear_velocity(get_parent().get_linear_velocity()+get_linear_velocity())
 		#get_parent().set_linear_velocity(Vector2(sin(get_rot())*300,cos(get_rot())*300))
-		var ximpulse = abs(get_pos().x)*10
-		var yimpulse = abs(get_pos().y)*10
-		var impulse = ximpulse+yimpulse
-		if (impulse >= 1):
-			impulse = 1
-			impulse(2)
+		#var ximpulse = abs(get_pos().x)*10
+		#var yimpulse = abs(get_pos().y)*10
+		#var impulse = ximpulse+yimpulse
+		#if (impulse >= 1):
+		#	impulse = 1
+		#	impulse(2)
 
 	if(r<30):
 		r += 1
@@ -118,16 +121,47 @@ func _process(delta):
 	
 	#print(angle)
 	set_angular_velocity(-angle*6)
+	if (m == 0):
+		var momentum = get_parent().get_linear_velocity().length()*get_parent().get_mass()
+		count += 1
+		total += momentum
+		label.set_text(str(int(momentum)) + ", " + str(int(total/count)))
+		m = 5
+	else:
+		m -= 1
 	
+func _integrate_forces(s):
 	
+	for x in range(s.get_contact_count()):
+			var ci = s.get_contact_local_normal(x)
+			if (moving):
+				var yrot = -sign(cos(get_rot()))*(1+abs(cos(get_rot())))/2
+				var xrot = -sin(get_rot())
+				var t = c
+				if (c > 8):
+					t = (15+c)/2
+			#print(t)
+			#print(impulse)
+				set_linear_velocity(get_linear_velocity()/2)
+				apply_impulse(Vector2(0,0),Vector2(xrot*(140*t),(yrot)*(140*t)))
+				#get_parent().set_linear_velocity(get_linear_velocity())
+				moving = false 
+				r= 30
+				var l = s.get_contact_collider_object(x)
+				if (l extends enemy):
+					l.direction = -l.direction
+					l.get_node("sprite").set_scale(Vector2(-l.direction*6, 6))
+					l.moving = true
 	
 	
 	#rotate(PI/4)
 	
 
 func _ready():
+	label = get_node("/root/stage/Node2D/CanvasLayer/Label")
 	#get_child(1).set_scale(get_child(1).get_scale()/100)
 	set_process_input(true)
 	set_process(true)
+	
 	#rotate(PI/4)
 	
