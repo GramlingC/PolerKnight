@@ -61,11 +61,11 @@ func _integrate_forces(s):
 					#set_mode(MODE_RIGID)
 					#state = STATE_DYING
 					#s.set_linear_velocity(dp * cc.get_linear_velocity())
-					print(cc.moving)
+					#print(cc.moving)
 					if (cc.moving):
-						print("2")
+						#print("2")
 						if (abs(dp.x) > 0.5 and sign(dp.x) != sign(direction) || dp.y > .7):
-							print("3")
+							#print("3")
 							direction = -direction
 							get_node("sprite").set_scale(Vector2(-direction*6, 6))
 						#if (dp.y > .7):
@@ -79,11 +79,11 @@ func _integrate_forces(s):
 			#	rise = dp.y
 		
 		if (wall_side != direction):
-			#print("stopped")
+			print("stopped")
 			lv.x = 0
 			moving = false
 		elif(moving):
-			#print("moving")
+			print("moving")
 			lv.x = direction*WALK_SPEED
 			
 		#if (direction < 0 and not rc_left.is_colliding() and rc_right.is_colliding()):
@@ -93,7 +93,7 @@ func _integrate_forces(s):
 		#	direction = -direction
 		#	get_node("sprite").set_scale(Vector2(-direction*5, 5))
 		
-		lv.y = 0
+		lv.y = 10
 		if (!rc_left.is_colliding() && !rc_right.is_colliding()):
 			lv.y = WALK_SPEED*3
 			

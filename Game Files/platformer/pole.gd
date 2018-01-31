@@ -74,13 +74,13 @@ func _process(delta):
 	if (!clicked && c < 15):
 		c += 1
 		get_child(0).set_pos(get_pos()+Vector2(0,65-(3*c)))
-		get_child(1).set_pos(get_pos()+Vector2(0,65-(3*c)))
+		get_child(1).set_pos(get_pos()+Vector2(0,85-(3*c)))
 		
 	if (clicked && c > 0):
 		c -= 1
 		#set_pos(get_pos()-Vector2(sin(get_rot())*(10-(1*c)),cos(get_rot())*(10-(1*c))))
 		get_child(0).set_pos(get_pos()+Vector2(0,65-(3*c)))
-		get_child(1).set_pos(get_pos()+Vector2(0,65-(3*c)))
+		get_child(1).set_pos(get_pos()+Vector2(0,85-(3*c)))
 		
 	else:
 		moving = false
@@ -121,6 +121,7 @@ func _process(delta):
 	
 	#print(angle)
 	set_angular_velocity(-angle*6)
+	
 	if (m == 0):
 		var momentum = get_parent().get_linear_velocity().length()*get_parent().get_mass()
 		count += 1
@@ -134,16 +135,22 @@ func _integrate_forces(s):
 	
 	for x in range(s.get_contact_count()):
 			var ci = s.get_contact_local_normal(x)
+			
 			if (moving):
+				
+				var mod = ci.dot(Vector2(-sin(get_rot()),-cos(get_rot())))
+
 				var yrot = -sign(cos(get_rot()))*(1+abs(cos(get_rot())))/2
 				var xrot = -sin(get_rot())
-				var t = c
+				var t = c 
 				if (c > 8):
 					t = (15+c)/2
 			#print(t)
 			#print(impulse)
-				set_linear_velocity(get_linear_velocity()/2)
-				apply_impulse(Vector2(0,0),Vector2(xrot*(140*t),(yrot)*(140*t)))
+				#set_linear_velocity(get_linear_velocity()/2)
+				var base = (90 + (mod * 30))#*t
+				print (Vector2(base + 50 * abs(ci.x),base + 50 * abs(ci.y)))
+				apply_impulse(Vector2(0,0),Vector2(t*xrot*(base + 50 * abs(ci.x)),t*yrot*(base + 50 * (.5+abs(ci.y))/1.5)))
 				#get_parent().set_linear_velocity(get_linear_velocity())
 				moving = false 
 				r= 30
