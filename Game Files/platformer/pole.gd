@@ -7,11 +7,12 @@ var clicked = false
 var moving = false
 var c = 15
 var r = 30
-var m = 20
 var enemy = preload("res://enemy.gd")
 var currentForce = Vector2(0,0)
 var label
 var total = 0
+var maxspeed = 0
+var time = 0
 var count = 0
 
 func _input(ev):
@@ -26,6 +27,7 @@ func impulse(ev):
 		clicked = !clicked
 		
 		if (!clicked):
+			#OS.set_time_scale(1)
 			#get_child(1).set_scale(get_child(1).get_scale()/100)
 			#get_child(0).set_pos(get_pos()+Vector2(0,75))
 			#get_child(1).set_pos(get_pos()+Vector2(0,0))
@@ -34,6 +36,7 @@ func impulse(ev):
 			#print(get_child(1).get_scale())
 			#set_angular_damp(10)
 		else:
+			#OS.set_time_scale(0.1)
 			#get_child(1).set_scale(get_child(1).get_scale()*100)
 			#get_child(0).set_pos(get_pos()+Vector2(0,100))
 			
@@ -77,6 +80,7 @@ func _process(delta):
 		get_child(1).set_pos(get_pos()+Vector2(0,85-(3*c)))
 		
 	if (clicked && c > 0):
+		
 		c -= 1
 		#set_pos(get_pos()-Vector2(sin(get_rot())*(10-(1*c)),cos(get_rot())*(10-(1*c))))
 		get_child(0).set_pos(get_pos()+Vector2(0,65-(3*c)))
@@ -122,17 +126,21 @@ func _process(delta):
 	#print(angle)
 	set_angular_velocity(-angle*6)
 	
-	if (m == 0):
+	if (delta > 0):
 		var momentum = get_parent().get_linear_velocity().length()*get_parent().get_mass()
+		if ( momentum < 1500):
+			set_friction(1 - (momentum/1500))
+		else:
+			set_friction(0)
+		time += delta
 		count += 1
 		total += momentum
-		label.set_text(str(int(momentum)) + ", " + str(int(total/count)))
-		m = 5
-	else:
-		m -= 1
+		if (momentum > maxspeed):
+			maxspeed = momentum
+		label.set_text("Current: " + str(int(momentum)) + ", Max: " + str(int(maxspeed)) + ", Time: "+ str(round(time*100)/100)+", Average: "+ str(int(total/count)))
 	
 func _integrate_forces(s):
-	
+
 	for x in range(s.get_contact_count()):
 			var ci = s.get_contact_local_normal(x)
 			
@@ -148,8 +156,7 @@ func _integrate_forces(s):
 			#print(t)
 			#print(impulse)
 				#set_linear_velocity(get_linear_velocity()/2)
-				var base = (90 + (mod * 30))#*t
-				print (Vector2(base + 50 * abs(ci.x),base + 50 * abs(ci.y)))
+				var base = (80 + (mod * 40))#*t
 				apply_impulse(Vector2(0,0),Vector2(t*xrot*(base + 50 * abs(ci.x)),t*yrot*(base + 50 * (.5+abs(ci.y))/1.5)))
 				#get_parent().set_linear_velocity(get_linear_velocity())
 				moving = false 
