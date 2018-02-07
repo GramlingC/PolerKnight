@@ -27,6 +27,7 @@ extends RigidBody2D
 
 # Member variables
 var anim = ""
+var new_anim = "falling"
 var siding_left = false
 var jumping = false
 var stopping_jump = false
@@ -51,11 +52,35 @@ var bullet = preload("res://bullet.tscn")
 
 var floor_h_velocity = 0.0
 var enemy
-var disabled = false
+var disabled = true
 var extended = false
+var p = 0
 
 
 func _integrate_forces(s):
+	var shoot = Input.is_action_pressed("shoot")
+	if (extended != shoot):
+		get_parent().impulse(3)
+		extended = shoot
+		if (shoot):
+			new_anim = "pushing"
+			p = 15
+			get_node("anim").play(new_anim)
+			anim = new_anim
+		else:
+			new_anim = "falling"
+			
+	shoot = false
+	if (p > 0):
+		p -= 1
+		if (p == 0 && new_anim == "pushing"):
+			new_anim = "extended"
+	if (new_anim != anim && p == 0):
+		get_node("anim").play(new_anim)
+		anim = new_anim
+		
+		
+		
 	if (disabled):
 		return
 	var lv = s.get_linear_velocity()
@@ -83,7 +108,7 @@ func _integrate_forces(s):
 	floor_h_velocity = 0.0
 	
 	if (extended != shoot):
-		get_node("plank1").impulse(3)
+		get_parent().get_node("plank1").impulse(3)
 		extended = shoot
 	shoot = false
 	# Find the floor (a contact with upwards facing collision normal)

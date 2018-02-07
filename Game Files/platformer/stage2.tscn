@@ -28,20 +28,11 @@ tile_data = IntArray( -262145, 13, -196609, 13, -131073, 13, -65537, 13, -1, 2, 
 
 [node name="Node2D" parent="." instance=ExtResource( 2 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 785.984, 1495.33 )
-
-[node name="player" parent="Node2D"]
-
-editor/display_folded = true
-
-[node name="CanvasLayer" parent="Node2D"]
-
-editor/display_folded = true
 
 [node name="AnalogRight" parent="Node2D/CanvasLayer/ui/AreaAnalogRight"]
 
-listenerNodePath = "/root/stage/Node2D/player/plank1"
+listenerNodePath = "/root/stage/Node2D/plank1"
 
 [node name="music" type="StreamPlayer" parent="."]
 

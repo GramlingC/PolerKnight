@@ -76,15 +76,14 @@ func _process(delta):
 	#print((get_viewport().get_mouse_pos().x-400))
 	if (!clicked && c < 15):
 		c += 1
-		get_child(0).set_pos(get_pos()+Vector2(0,65-(3*c)))
-		get_child(1).set_pos(get_pos()+Vector2(0,85-(3*c)))
+		get_child(0).set_pos(Vector2(0,85-(3*c)))
+		get_child(1).set_pos(Vector2(0,110-(3*c)))
 		
 	if (clicked && c > 0):
-		
 		c -= 1
 		#set_pos(get_pos()-Vector2(sin(get_rot())*(10-(1*c)),cos(get_rot())*(10-(1*c))))
-		get_child(0).set_pos(get_pos()+Vector2(0,65-(3*c)))
-		get_child(1).set_pos(get_pos()+Vector2(0,85-(3*c)))
+		get_child(0).set_pos(Vector2(0,85-(3*c)))
+		get_child(1).set_pos(Vector2(0,110-(3*c)))
 		
 	else:
 		moving = false
@@ -120,14 +119,28 @@ func _process(delta):
 	#set_angular_damp(0)
 	var angle = get_angle_to(Vector2(get_global_pos().x + currentForce.x,get_global_pos().y - currentForce.y))
 	
-	if (abs(angle) > PI/2):
-		angle = sign(angle)*PI/2
+	if (abs(angle) > PI/8):
+		get_node("player").new_anim = "turning"
+		get_node("player/sprite").set_scale(get_node("player/sprite").get_scale().abs()*Vector2(sign(angle),1))
+		if (abs(angle) > PI/2):
+			angle = sign(angle)*PI/2
+	else:
+		if (get_node("player").extended):
+			get_node("player").new_anim = "extended"
+		else:
+			get_node("player").new_anim = "falling"
 	
 	#print(angle)
-	set_angular_velocity(-angle*6)
+	#get_parent().set_rot(get_rot())
+	#get_parent().set_angular_velocity(-angle*6)
+	
+	get_node("player/sprite").set_rot(get_rot())
+	#get_parent().get_node("player").set_pos(get_pos())
+	set_angular_velocity(-angle*3)
+	
 	
 	if (delta > 0):
-		var momentum = get_parent().get_linear_velocity().length()*get_parent().get_mass()
+		var momentum = get_node("player").get_linear_velocity().length()*get_node("player").get_mass()
 		if ( momentum < 1500):
 			set_friction(1 - (momentum/1500))
 		else:
@@ -157,7 +170,8 @@ func _integrate_forces(s):
 			#print(impulse)
 				#set_linear_velocity(get_linear_velocity()/2)
 				var base = (80 + (mod * 40))#*t
-				apply_impulse(Vector2(0,0),Vector2(t*xrot*(base + 50 * abs(ci.x)),t*yrot*(base + 50 * (.5+abs(ci.y))/1.5)))
+				print(abs(ci.x))
+				apply_impulse(Vector2(0,0),Vector2(t*xrot*(base + 70 * abs(ci.x)),t*yrot*(base + 50 * (.5+abs(ci.y))/1.5)))
 				#get_parent().set_linear_velocity(get_linear_velocity())
 				moving = false 
 				r= 30
